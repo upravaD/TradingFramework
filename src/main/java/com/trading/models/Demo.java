@@ -1,13 +1,17 @@
 package com.trading.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *  Модель демонстрационной платформы
  */
 
 public class Demo {
     private static Demo demo;
-    private int startPrice;
-    private int currentPrice;
+    private double startPrice;
+    private double currentPrice;
+    private final List<Double> prises  = new ArrayList<>();
 
     private Demo() {
     }
@@ -19,17 +23,21 @@ public class Demo {
         return demo;
     }
 
-    public int getStartPrice() {
+    public double getStartPrice() {
         return startPrice;
     }
-    public void setStartPrice(int startPrice) {
+    public void setStartPrice(double startPrice) {
         this.startPrice = startPrice;
     }
 
-    public int getCurrentPrice() {
+    public double getCurrentPrice() {
         return currentPrice;
     }
-    public void setCurrentPrice(int currentPrice) {
+    public void setCurrentPrice(double currentPrice) {
         this.currentPrice = currentPrice;
+    }
+
+    public List<Double> getPrises() {
+        return prises;
     }
 }

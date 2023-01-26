@@ -1,64 +1,25 @@
 package com.trading.models;
 
 import com.trading.models.enums.OrderSide;
-import com.trading.models.enums.PlatformManager;
 import com.trading.models.enums.Symbol;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *  Модель торгового бота
+ */
+
 public class TradingBot {
-    private PlatformManager platformManager;
-    private String apiKey;
-    private String apiSecret;
-    private Symbol symbol;
     private double step;
     private int level;
     private double coef;
-    private OrderSide orderSide;
+    private final List<Order> orders = new ArrayList<>(level);
 
-    public TradingBot() {
-
-    }
-
-    public TradingBot(PlatformManager platformManager, String apiKey, String apiSecret, Symbol symbol, double step, int level, double coef, OrderSide orderSide) {
-        this.platformManager = platformManager;
-        this.apiKey = apiKey;
-        this.apiSecret = apiSecret;
-        this.symbol = symbol;
+    public TradingBot(double step, int level, double coef) {
         this.step = step;
         this.level = level;
         this.coef = coef;
-        this.orderSide = orderSide;
-    }
-
-    public PlatformManager getPlatformManager() {
-        return platformManager;
-    }
-
-    public void setPlatformManager(PlatformManager platformManager) {
-        this.platformManager = platformManager;
-    }
-
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
-    }
-
-    public String getApiSecret() {
-        return apiSecret;
-    }
-
-    public void setApiSecret(String apiSecret) {
-        this.apiSecret = apiSecret;
-    }
-
-    public Symbol getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(Symbol symbol) {
-        this.symbol = symbol;
     }
 
     public double getStep() {
@@ -85,11 +46,11 @@ public class TradingBot {
         this.coef = coef;
     }
 
-    public OrderSide getOrderSide() {
-        return orderSide;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setOrderSide(OrderSide orderSide) {
-        this.orderSide = orderSide;
+    public void setOrders(List<Order> orders, OrderSide orderSide, Symbol symbol) {
+        orders.add(new Order(orderSide, symbol));
     }
 }
