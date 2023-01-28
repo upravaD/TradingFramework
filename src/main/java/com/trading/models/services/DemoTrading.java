@@ -1,6 +1,7 @@
 package com.trading.models.services;
 
 import com.trading.models.Demo;
+import com.trading.models.TradingBot;
 import com.trading.models.enums.OrderSide;
 import com.trading.models.enums.PlatformManager;
 import com.trading.models.enums.Symbol;
@@ -10,10 +11,12 @@ import java.util.Random;
 
 public class DemoTrading {
     private final Demo demo;
+    private final TradingBot tb;
 
     public DemoTrading() {
         this.demo = (Demo) PlatformManager.DEMO.getPlatform();
         demo.setStartPrice(20_000);
+        this.tb = TradingBot.getInstance();
     }
 
     private void printStartPrice() {
@@ -24,7 +27,7 @@ public class DemoTrading {
 
     private void printCurrentPrice() {
         System.out.println("Current Price = " + demo.getCurrentPrice() + " (" + Symbol.XBTUSD + ") { " + LocalTime.now() + " }");
-        System.out.println("-------------------------------------------------------");
+        System.out.println("-".repeat(55));
     }
 
     private void updatePrice() {
@@ -48,20 +51,16 @@ public class DemoTrading {
         printCurrentPrice();
     }
 
-    public void startPlatform(int stopCount) {
+    public void startTrading(int stopCount, double step, int level, double coef, Symbol symbol) {
         int startCount = 0;
         printStartPrice();
+
+        tb.botInit(step,level,coef);
 
         while(startCount < stopCount) {
             updatePrice();
 
-
-            if (Demo.getInstance().getCurrentPrice() < 19_800 && Demo.getInstance().getCurrentPrice() > 19_600){
-                System.out.println(OrderSide.Buy + " 1");
-            }
-            if (Demo.getInstance().getCurrentPrice() < 19_600 && Demo.getInstance().getCurrentPrice() > 19_400){
-                System.out.println(OrderSide.Buy + " 2");
-            }
+            openLongOrder(symbol);
 
             startCount++;
 
@@ -69,5 +68,31 @@ public class DemoTrading {
                 System.out.println(demo.getPrises());
             }
         }
+    }
+    private void openLongOrder(Symbol symbol) {
+        if (demo.getCurrentPrice() < demo.getStartPrice() - tb.getStep() && demo.getCurrentPrice() > demo.getStartPrice() - tb.getStep()*2) {
+            System.out.println("Trading Bot open the long order with price = " + demo.getCurrentPrice());
+
+            if (tb.getLevel() >= tb.getOrders().size()) {
+                tb.setOrders(OrderSide.Buy, symbol);
+            }
+
+            demo.setStartPrice(demo.getCurrentPrice());
+            closeLongOrder();
+
+            System.out.println("-".repeat(55));
+        }
+    }
+
+    private void closeLongOrder() {
+        System.out.println((tb.getOrders().toString()));
+
+        if (demo.getCurrentPrice() > demo.getStartPrice() + tb.getStep()) {
+            tb.getOrders().remove(0);
+            System.out.println("Long Order close");
+        }
+        System.out.println("OrdersList size: " + tb.getOrders().size());
+
+        System.out.println((tb.getOrders().toString()));
     }
 }

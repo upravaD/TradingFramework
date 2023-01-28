@@ -7,19 +7,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Модель торгового бота
+ * Модель торгового бота
  */
 
 public class TradingBot {
+    private static TradingBot tradingBot;
     private double step;
     private int level;
     private double coef;
-    private final List<Order> orders = new ArrayList<>(level);
+    private List<Order> orders;
 
-    public TradingBot(double step, int level, double coef) {
+    public TradingBot() {
+    }
+
+    public void botInit(double step, int level, double coef) {
         this.step = step;
         this.level = level;
         this.coef = coef;
+        orders = new ArrayList<>();
+    }
+
+    public static TradingBot getInstance() {
+        if (tradingBot == null) {
+            tradingBot = new TradingBot();
+        }
+        return tradingBot;
     }
 
     public double getStep() {
@@ -50,7 +62,7 @@ public class TradingBot {
         return orders;
     }
 
-    public void setOrders(List<Order> orders, OrderSide orderSide, Symbol symbol) {
+    public void setOrders(OrderSide orderSide, Symbol symbol) {
         orders.add(new Order(orderSide, symbol));
     }
 }

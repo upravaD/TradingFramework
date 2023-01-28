@@ -31,4 +31,12 @@ public class Order {
     public void setSymbol(Symbol symbol) {
         this.symbol = symbol;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderSide=" + orderSide +
+                ", symbol=" + symbol +
+                '}';
+    }
 }
