@@ -1,4 +1,4 @@
-package com.trading.models.enums;
+package com.trading.util.url;
 
 public enum Verb {
 
@@ -11,7 +11,7 @@ public enum Verb {
         this.verb = verb;
     }
 
-    public String getVerb() {
+    public String get() {
         return verb;
     }
 }

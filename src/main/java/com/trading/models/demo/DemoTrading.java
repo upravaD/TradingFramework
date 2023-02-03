@@ -1,10 +1,9 @@
-package com.trading.models.services;
+package com.trading.models.demo;
 
-import com.trading.models.Demo;
+import com.trading.models.PlatformManager;
 import com.trading.models.TradingBot;
-import com.trading.models.enums.OrderSide;
-import com.trading.models.enums.PlatformManager;
-import com.trading.models.enums.Symbol;
+import com.trading.models.order.OrderSide;
+import com.trading.models.order.Symbol;
 
 import java.time.LocalTime;
 import java.util.Random;
@@ -74,7 +73,7 @@ public class DemoTrading {
             System.out.println("Trading Bot open the long order with price = " + demo.getCurrentPrice());
 
             if (tb.getLevel() >= tb.getOrders().size()) {
-                tb.setOrders(OrderSide.Buy, symbol);
+                tb.setOrders(OrderSide.BUY, symbol);
             }
 
             demo.setStartPrice(demo.getCurrentPrice());

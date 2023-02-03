@@ -1,7 +1,7 @@
-package com.trading.models.enums;
+package com.trading.models;
 
-import com.trading.models.Bitmex;
-import com.trading.models.Demo;
+import com.trading.models.bitmex.Bitmex;
+import com.trading.models.demo.Demo;
 
 public enum PlatformManager {
     DEMO(Demo.getInstance()),

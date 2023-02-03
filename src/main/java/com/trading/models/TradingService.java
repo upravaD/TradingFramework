@@ -1,7 +1,7 @@
-package com.trading.models.services;
+package com.trading.models;
 
-import com.trading.models.enums.PlatformManager;
-import com.trading.models.enums.Symbol;
+import com.trading.models.order.Symbol;
+import com.trading.models.demo.DemoTrading;
 
 public class TradingService {
     private final PlatformManager platformManager;

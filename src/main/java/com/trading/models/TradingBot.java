@@ -1,7 +1,8 @@
 package com.trading.models;
 
-import com.trading.models.enums.OrderSide;
-import com.trading.models.enums.Symbol;
+import com.trading.models.order.Order;
+import com.trading.models.order.OrderSide;
+import com.trading.models.order.Symbol;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,6 @@ public class TradingBot {
     }
 
     public void setOrders(OrderSide orderSide, Symbol symbol) {
-        orders.add(new Order(orderSide, symbol));
+        //orders.add(new Order(orderSide, symbol));
     }
 }

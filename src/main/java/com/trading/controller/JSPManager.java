@@ -1,4 +1,4 @@
-package com.trading.models.enums;
+package com.trading.controller;
 
 public enum JSPManager {
     INDEX("/index.jsp");
