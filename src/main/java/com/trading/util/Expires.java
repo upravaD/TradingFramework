@@ -3,12 +3,12 @@ package com.trading.util;
 import java.time.Instant;
 
 public enum Expires {
-    NEW((Instant.now().getEpochSecond() + 100) + "");
+    NEW((Instant.now().getEpochSecond() + 100));
 
-    private String expires = "";
+    private final String expires;
 
-    Expires(String expires) {
-        this.expires = expires;
+    Expires(long expires) {
+        this.expires = String.valueOf(expires);
     }
 
     public String create() {

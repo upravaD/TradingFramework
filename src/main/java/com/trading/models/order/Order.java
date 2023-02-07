@@ -14,7 +14,7 @@ import lombok.*;
 public class Order {
     private String symbol;
     private String orderSide;
-    private String orderType;
-    private Double price;
     private Double orderQty;
+    private Double price;
+    private String orderType;
 }

@@ -2,7 +2,9 @@ package com.trading.util.url.bitmex;
 
 public enum BitmexResourcePath {
     ORDER("/order"),
-    POSITION("/position");
+    INSTRUMENT("/instrument"),
+    POSITION("/position"),
+    ORDER_BOOK("/orderBook/L2");
 
     private String resourcePath = "";
 

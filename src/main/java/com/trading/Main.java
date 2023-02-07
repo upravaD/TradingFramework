@@ -14,6 +14,7 @@ import com.trading.util.url.Verb;
 import com.trading.util.url.bitmex.BitmexResourcePath;
 import com.trading.util.url.bitmex.BitmexURL;
 import org.json.JSONObject;
+import org.w3c.dom.ls.LSOutput;
 
 import java.net.http.HttpResponse;
 
@@ -27,51 +28,21 @@ public class Main {
 
 
         /** Начало программы **/
-
-//        // 1. Регистрируем пользователя
-//        User user = new User(1L, "NAME");
 //
-//        // 2. Создаем платформу
-//        Bitmex bitmex = Bitmex.builder()
-//                .isTestnet(true)
-//                .apiKey("WQ1aBsyISR2r-4yETA8dFQvS")
-//                .apiSecret("_t2ZDgBFOw0R3fy5QD5UfRp7UWT_1votUopd59nGgZyW4SRz")
-//                .build();
-//
-//        // 3. Подключаемся к платформе
-//        BitmexHttpClient bhc = new BitmexHttpClient(bitmex);
-//
-//        // 4. Создаем ордер
-//        Order order = Order.builder()
-//                .symbol(Symbol.XBTUSD.get())
-//                .orderSide(OrderSide.BUY.get())
-//                .orderType(OrderType.LIMIT.get())
-//                .price(1.0)
-//                .orderQty(100.0)
-//                .build();
-//
-//        // 5. Посылаем запрос
-//        HttpResponse<String> response = bhc.sendOrder(order);
-//
-//        // 6. Получаем ответ
-//        System.out.println(response.body());
-
         // 1. Регистрируем пользователя
         User user = new User(1L, "NAME");
 
         // 2. Создаем платформу
         Bitmex bitmex = Bitmex.builder()
                 .isTestnet(true)
-                .apiKey("LAqUlngMIQkIUjXMUreyu3qn")
-                .apiSecret("chNOOS4KvNXR_Xq4k4c9qsfoKWvnDecLATCRlcBwyKDYnWgO")
+                .apiKey("WQ1aBsyISR2r-4yETA8dFQvS")
+                .apiSecret("_t2ZDgBFOw0R3fy5QD5UfRp7UWT_1votUopd59nGgZyW4SRz")
                 .build();
-        URL url = URL.builder()
-                .protocol(BitmexURL.PROTOCOL.get())
-                .net(bitmex.getNet())
-                .baseUrl(BitmexURL.BASE_URL.get())
-                .apiPath(BitmexURL.API_PATH.get())
-                .resourcePath(BitmexResourcePath.ORDER.get())
-                .build();
+
+        // 3. Подключаемся к платформе
+        BitmexHttpClient bhc = new BitmexHttpClient(bitmex);
+
+        // 4. Создаем data request
         Order order = Order.builder()
                 .symbol(Symbol.XBTUSD.get())
                 .orderSide(OrderSide.BUY.get())
@@ -79,8 +50,11 @@ public class Main {
                 .price(1.0)
                 .orderQty(100.0)
                 .build();
-        String jsonOrder = new JSONObject(order).toString();
-        String expires = Expires.NEW.create();
-        String signature = new Signature().createSignature(url, Verb.POST.get(), jsonOrder, expires, bitmex.getApiSecret());
+
+        // 5. Посылаем запрос
+        HttpResponse<String> result = bhc.sendOrder(order);
+
+        // 6. Получаем ответ
+        System.out.println(result.body());
     }
 }
