@@ -13,8 +13,8 @@ import lombok.*;
 @Builder
 public class Order {
     private String symbol;
-    private String orderSide;
-    private Double orderQty;
+    private String side;
     private Double price;
+    private Double orderQty;
     private String orderType;
 }

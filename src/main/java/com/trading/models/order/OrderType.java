@@ -2,7 +2,7 @@ package com.trading.models.order;
 
 public enum OrderType {
     MARKET("MARKET"),
-    LIMIT("LIMIT"),
+    LIMIT("Limit"),
     STOP_LIMIT("STOP LIMIT"),
     MARKET_IF_TOUCHED("MARKET IF TOUCHED"),
     LIMIT_IF_TOUCHED("LIMIT IF TOUCHED");

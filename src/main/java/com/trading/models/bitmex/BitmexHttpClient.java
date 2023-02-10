@@ -1,6 +1,5 @@
 package com.trading.models.bitmex;
 
-import com.trading.Main;
 import com.trading.models.order.Order;
 import com.trading.models.order.Symbol;
 import com.trading.util.Expires;
@@ -12,11 +11,18 @@ import com.trading.util.url.bitmex.BitmexURL;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.swing.text.DateFormatter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class BitmexHttpClient {
     private final Bitmex bitmex;
@@ -25,6 +31,14 @@ public class BitmexHttpClient {
     public BitmexHttpClient(Bitmex bitmex) {
         this.bitmex = bitmex;
         this.client = HttpClient.newHttpClient();
+    }
+
+    public String getPrice() {
+        JSONArray jsonArray = new JSONArray(getOrderBook().body());
+        JSONObject jsonObject = (JSONObject) jsonArray.get(0);
+        String price = jsonObject.get("price") + " " + jsonObject.getString("symbol");
+        Instant instant = Instant.parse(String.valueOf(jsonObject.get("timestamp")));
+        return "Price: " + price + " \n" + convertTimeStamp(instant);
     }
 
     public HttpResponse<String> getOrderBook() {
@@ -50,8 +64,10 @@ public class BitmexHttpClient {
         String expires = Expires.NEW.create();
         String signature = new Signature().createSignature(url, Verb.POST.get(), data, expires, bitmex.getApiSecret());
 
+        System.out.println(url);
+
         HttpRequest request = HttpRequest.newBuilder()
-                .POST(HttpRequest.BodyPublishers.ofString(data))
+                .POST(BodyPublishers.ofString(data))
                 .header("api-signature", signature)
                 .header("api-expires", expires)
                 .header("api-key", bitmex.getApiKey())
@@ -62,13 +78,12 @@ public class BitmexHttpClient {
 
         HttpResponse<String> response;
         try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            response = client.send(request, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         return response;
     }
-
     private URL createBitmexURL(BitmexResourcePath path) {
         return URL.builder()
                 .protocol(BitmexURL.PROTOCOL.get())
@@ -78,10 +93,11 @@ public class BitmexHttpClient {
                 .resourcePath(path.get())
                 .build();
     }
-    public double getPrice() {
-        JSONArray jsonArray = new JSONArray(getOrderBook().body());
-        JSONObject jsonObject = (JSONObject) jsonArray.get(0);
-        String price = String.valueOf(jsonObject.get("price"));
-        return Double.parseDouble(price);
+
+    private String convertTimeStamp(Instant instant) {
+        LocalDate date = LocalDate.ofInstant(instant, ZoneId.systemDefault());
+        LocalTime time = LocalTime.ofInstant(instant, ZoneId.systemDefault());
+        return "Date: " + date.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) + "\n" +
+               "Time: " + time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
 }

@@ -1,42 +1,36 @@
 package com.trading;
 
+import com.trading.dto.UserDTO;
 import com.trading.models.bitmex.Bitmex;
 import com.trading.models.bitmex.BitmexHttpClient;
 import com.trading.models.order.Order;
 import com.trading.models.order.OrderSide;
 import com.trading.models.order.OrderType;
 import com.trading.models.order.Symbol;
-import com.trading.models.user.User;
-import com.trading.util.Expires;
-import com.trading.util.Signature;
-import com.trading.util.url.URL;
-import com.trading.util.url.Verb;
-import com.trading.util.url.bitmex.BitmexResourcePath;
-import com.trading.util.url.bitmex.BitmexURL;
-import org.json.JSONObject;
-import org.w3c.dom.ls.LSOutput;
 
 import java.net.http.HttpResponse;
 
 public class Main {
     public static void main(java.lang.String[] args) {
+
         System.out.println("Welcome to Trading Framework!");
-
-//        TradingService tradingService = new TradingService(PlatformManager.DEMO);
-//        tradingService.trade(10, 200, 3, 1, Symbol.XBTUSD);
-
-
+        System.out.println("-".repeat(55));
 
         /** Начало программы **/
-//
+
         // 1. Регистрируем пользователя
-        User user = new User(1L, "NAME");
+        UserDTO user = new UserDTO(
+                1L,
+                "NAME",
+                "WQ1aBsyISR2r-4yETA8dFQvS",
+                "_t2ZDgBFOw0R3fy5QD5UfRp7UWT_1votUopd59nGgZyW4SRz"
+        );
 
         // 2. Создаем платформу
         Bitmex bitmex = Bitmex.builder()
                 .isTestnet(true)
-                .apiKey("WQ1aBsyISR2r-4yETA8dFQvS")
-                .apiSecret("_t2ZDgBFOw0R3fy5QD5UfRp7UWT_1votUopd59nGgZyW4SRz")
+                .apiKey(user.getApiKey())
+                .apiSecret(user.getApiSecret())
                 .build();
 
         // 3. Подключаемся к платформе
@@ -45,16 +39,23 @@ public class Main {
         // 4. Создаем data request
         Order order = Order.builder()
                 .symbol(Symbol.XBTUSD.get())
-                .orderSide(OrderSide.BUY.get())
+                .side(OrderSide.BUY.get())
                 .orderType(OrderType.LIMIT.get())
                 .price(1.0)
                 .orderQty(100.0)
                 .build();
 
         // 5. Посылаем запрос
-        HttpResponse<String> result = bhc.sendOrder(order);
+        String price = bhc.getPrice();
+        HttpResponse<String> sendOrder = bhc.sendOrder(order);
+        HttpResponse<String> orderBook = bhc.getOrderBook();
 
         // 6. Получаем ответ
-        System.out.println(result.body());
+        System.out.println("-".repeat(55));
+        System.out.println(price);
+        System.out.println("-".repeat(55));
+        System.out.println("Send order response: \n" + sendOrder.body());
+        System.out.println("-".repeat(55));
+        System.out.println("Order book response: \n" + orderBook.body());
     }
 }

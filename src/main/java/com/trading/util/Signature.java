@@ -28,7 +28,6 @@ public class Signature {
     }
 
     private byte[] calcSha256(String verb, String path, String data, String expires, String apiSecret) {
-        //HMAC hmac = new HMAC();
         return calcHmacSha256(apiSecret.getBytes(StandardCharsets.UTF_8),
                 (verb + path + data + expires).getBytes(StandardCharsets.UTF_8));
 
@@ -42,6 +41,11 @@ public class Signature {
 
     public String createSignature(URL url, String verb, String data, String expires, String apiSecret) {
         String path = url.getApiPath() + url.getResourcePath();
-        return convertToString(calcSha256(verb, path, data, expires, apiSecret));
+        System.out.println(verb + " " + path + " " + data + " " + expires + apiSecret);
+        String result = convertToString(calcSha256(verb, path, data, expires, apiSecret));
+        if (result.length() != 64) {
+            result = convertToString(calcSha256(verb, path, data, expires, apiSecret));
+        }
+        return result;
     }
 }

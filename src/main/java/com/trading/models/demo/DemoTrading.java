@@ -1,6 +1,5 @@
 package com.trading.models.demo;
 
-import com.trading.models.PlatformManager;
 import com.trading.models.TradingBot;
 import com.trading.models.order.OrderSide;
 import com.trading.models.order.Symbol;
@@ -13,7 +12,7 @@ public class DemoTrading {
     private final TradingBot tb;
 
     public DemoTrading() {
-        this.demo = (Demo) PlatformManager.DEMO.getPlatform();
+        this.demo = Demo.getInstance();
         demo.setStartPrice(20_000);
         this.tb = TradingBot.getInstance();
     }
