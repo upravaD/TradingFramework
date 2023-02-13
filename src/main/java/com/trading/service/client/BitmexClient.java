@@ -1,7 +1,8 @@
-package com.trading.models.bitmex;
+package com.trading.service.client;
 
-import com.trading.models.order.Order;
-import com.trading.models.order.Symbol;
+import com.trading.model.bitmex.Bitmex;
+import com.trading.data.dto.OrderDTO;
+import com.trading.model.order.Symbol;
 import com.trading.util.Expires;
 import com.trading.util.Signature;
 import com.trading.util.url.URL;
@@ -21,7 +22,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-public class BitmexClient {
+public class BitmexClient implements Client {
     private final Bitmex bitmex;
     private final HttpClient client;
 
@@ -30,27 +31,29 @@ public class BitmexClient {
         this.client = HttpClient.newHttpClient();
     }
 
-    public String getPrice(Symbol symbol) {
-        JSONArray jsonArray = new JSONArray(getOrderBook(symbol).body());
+    // Получить последнюю цену String
+    public String getPrice(Symbol symbol, int depth) {
+        JSONArray jsonArray = new JSONArray(getOrderBook(symbol, depth).body());
         JSONObject jsonObject = (JSONObject) jsonArray.get(0);
         String price = jsonObject.get("price") + " " + jsonObject.getString("symbol");
         Instant instant = Instant.parse(String.valueOf(jsonObject.get("timestamp")));
         return "Price: " + price + " \n" + convertTimeStamp(instant);
     }
-    public double getDoublePrice(Symbol symbol) {
-        return new JSONArray(getOrderBook(symbol).body())
+
+    // Получить последнюю цену Double
+    public double getDoublePrice(Symbol symbol, int depth) {
+        return new JSONArray(getOrderBook(symbol, depth).body())
                 .getJSONObject(0)
                 .getDouble("price");
     }
 
-    public HttpResponse<String> getOrderBook(Symbol symbol) {
+    // GET запрос к Bitmex на получение ордерной книги
+    public HttpResponse<String> getOrderBook(Symbol symbol, int depth) {
         URL url = createBitmexURL(BitmexResourcePath.ORDER_BOOK);
-
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(url + "?symbol=" + symbol + "&depth=1"))
+                .uri(URI.create(url + "?symbol=" + symbol + "&depth=" + depth))
                 .build();
-
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -60,9 +63,10 @@ public class BitmexClient {
         return response;
     }
 
-    public HttpResponse<String> sendOrder(Order order) {
+    // POST запрос на выставление ордера
+    public HttpResponse<String> sendOrder(OrderDTO orderDTO) {
         URL url = createBitmexURL(BitmexResourcePath.ORDER);
-        String data = new JSONObject(order).toString();
+        String data = new JSONObject(orderDTO).toString();
         String expires = new Expires().toString();
         String signature = new Signature().createSignature(url, Verb.POST.get(), data, expires, bitmex.getApiSecret());
 
@@ -84,6 +88,9 @@ public class BitmexClient {
         }
         return response;
     }
+
+    // Вспомогательные методы
+
     private URL createBitmexURL(BitmexResourcePath path) {
         return URL.builder()
                 .protocol(BitmexURL.PROTOCOL.get())

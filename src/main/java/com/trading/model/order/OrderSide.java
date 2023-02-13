@@ -1,8 +1,8 @@
-package com.trading.models.order;
+package com.trading.model.order;
 
 public enum OrderSide {
     BUY ("Buy"),
-    SELL ("SELL");
+    SELL ("Sell");
     private final String side;
 
     OrderSide(String side) {

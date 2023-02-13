@@ -1,11 +1,11 @@
-package com.trading.models.order;
+package com.trading.model.order;
 
 public enum OrderType {
-    MARKET("MARKET"),
+    MARKET("Market"),
     LIMIT("Limit"),
-    STOP_LIMIT("STOP LIMIT"),
-    MARKET_IF_TOUCHED("MARKET IF TOUCHED"),
-    LIMIT_IF_TOUCHED("LIMIT IF TOUCHED");
+    STOP_LIMIT("StopLimit"),
+    MARKET_IF_TOUCHED("MarketIfTouched"),
+    LIMIT_IF_TOUCHED("LimitIfTouched");
 
     private final String type;
 

@@ -1,8 +1,8 @@
-package com.trading.models.demo;
+package com.trading.model.demo;
 
-import com.trading.models.TradingBot;
-import com.trading.models.order.OrderSide;
-import com.trading.models.order.Symbol;
+import com.trading.model.TradingBot;
+import com.trading.model.order.OrderSide;
+import com.trading.model.order.Symbol;
 
 import java.time.LocalTime;
 import java.util.Random;

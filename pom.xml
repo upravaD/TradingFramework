@@ -29,7 +29,7 @@
       <scope>test</scope>
     </dependency>
 
-
+    <!-- Servlet -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -47,14 +47,21 @@
       <version>2.0</version>
     </dependency>
 
+    <!-- WebSocket -->
+    <dependency>
+      <groupId>org.java-websocket</groupId>
+      <artifactId>Java-WebSocket</artifactId>
+      <version>1.5.3</version>
+    </dependency>
 
+    <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.20</version>
     </dependency>
 
-
+    <!-- JSON -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
@@ -66,7 +73,6 @@
       <version>20220924</version>
     </dependency>
 
-
     <!-- Hibernate -->
     <!-- to start need only this -->
     <dependency>
@@ -74,14 +80,12 @@
       <artifactId>hibernate-core</artifactId>
       <version>5.3.20.Final</version>
     </dependency>
-
     <!-- for JPA, use hibernate-entitymanager instead of hibernate-core -->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
       <version>6.0.0.Alpha7</version>
     </dependency>
-
     <!-- optional -->
     <dependency>
       <groupId>org.hibernate</groupId>
@@ -115,13 +119,12 @@
     </dependency>
     <!--END Hibernate -->
 
-
+    <!-- MySQL -->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>8.0.32</version>
     </dependency>
-
   </dependencies>
 
   <build>

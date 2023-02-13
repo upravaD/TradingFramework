@@ -1,4 +1,4 @@
-package com.trading.models.demo;
+package com.trading.model.demo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

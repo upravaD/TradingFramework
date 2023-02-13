@@ -1,4 +1,4 @@
-package com.trading.models.bitmex;
+package com.trading.model.bitmex;
 
 import com.trading.util.url.bitmex.BitmexURL;
 import lombok.*;

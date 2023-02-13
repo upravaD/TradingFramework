@@ -1,15 +1,16 @@
 package com.trading;
 
+import com.trading.data.dao.UserDAO;
 import com.trading.data.dto.UserDTO;
-import com.trading.models.bitmex.Bitmex;
-import com.trading.models.bitmex.BitmexClient;
-import com.trading.models.order.Order;
-import com.trading.models.order.OrderSide;
-import com.trading.models.order.OrderType;
-import com.trading.models.order.Symbol;
-import org.json.JSONArray;
+import com.trading.data.entity.User;
+import com.trading.model.bitmex.Bitmex;
+import com.trading.service.client.BitmexClient;
+import com.trading.data.dto.OrderDTO;
+import com.trading.model.order.OrderSide;
+import com.trading.model.order.OrderType;
+import com.trading.model.order.Symbol;
 
-import java.net.http.HttpResponse;
+import java.util.List;
 
 public class Main {
     public static void main(java.lang.String[] args) {
@@ -38,7 +39,7 @@ public class Main {
         BitmexClient bhc = new BitmexClient(bitmex);
 
         // 4. Создаем data request
-        Order order = Order.builder()
+        OrderDTO orderDTO = OrderDTO.builder()
                 .symbol(Symbol.BMEXUSDT)
                 .side(OrderSide.BUY.get())
                 .orderType(OrderType.LIMIT.get())
@@ -47,16 +48,23 @@ public class Main {
                 .build();
 
         // 5. Посылаем запрос
-        String price = bhc.getPrice(Symbol.BMEXUSDT);
-        HttpResponse<String> sendOrder = bhc.sendOrder(order);
-        HttpResponse<String> orderBook = bhc.getOrderBook(Symbol.BMEXUSDT);
+        UserDAO userDAO = new UserDAO();
+        List<User> all = userDAO.getAll();
+        System.out.println(all.toString());
+        //String price = bhc.getPrice(Symbol.BMEXUSDT, 1);
+        //double price = bhc.getDoublePrice(Symbol.BMEXUSDT, 1);
+        //HttpResponse<String> sendOrder = bhc.sendOrder(order);
+        //HttpResponse<String> orderBook = bhc.getOrderBook(Symbol.BMEXUSDT, 1);
 
         // 6. Получаем ответ
         System.out.println("-".repeat(55));
-        System.out.println(price);
+
+        //System.out.println("Price: " + price);
         System.out.println("-".repeat(55));
-        System.out.println("Send order response: \n" + sendOrder.body());
+
+        //System.out.println("Order response: \n" + sendOrder.body());
         System.out.println("-".repeat(55));
-        System.out.println("Order book response: \n" + orderBook.body());
+
+        //System.out.println("OrderBook response: \n" + orderBook.body());
     }
 }

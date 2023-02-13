@@ -1,5 +1,6 @@
-package com.trading.models.order;
+package com.trading.data.dto;
 
+import com.trading.model.order.Symbol;
 import lombok.*;
 
 /**
@@ -11,7 +12,7 @@ import lombok.*;
 @Setter
 @ToString
 @Builder
-public class Order {
+public class OrderDTO {
     private Symbol symbol;
     private String side;
     private Double price;

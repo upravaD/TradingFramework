@@ -1,8 +1,8 @@
-package com.trading.models;
+package com.trading.model;
 
-import com.trading.models.order.Order;
-import com.trading.models.order.OrderSide;
-import com.trading.models.order.Symbol;
+import com.trading.data.dto.OrderDTO;
+import com.trading.model.order.OrderSide;
+import com.trading.model.order.Symbol;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class TradingBot {
     private double step;
     private int level;
     private double coef;
-    private List<Order> orders;
+    private List<OrderDTO> orderDTOS;
 
     public TradingBot() {
     }
@@ -25,7 +25,7 @@ public class TradingBot {
         this.step = step;
         this.level = level;
         this.coef = coef;
-        orders = new ArrayList<>();
+        orderDTOS = new ArrayList<>();
     }
 
     public static TradingBot getInstance() {
@@ -59,8 +59,8 @@ public class TradingBot {
         this.coef = coef;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public List<OrderDTO> getOrders() {
+        return orderDTOS;
     }
 
     public void setOrders(OrderSide orderSide, Symbol symbol) {

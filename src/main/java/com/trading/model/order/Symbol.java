@@ -1,4 +1,4 @@
-package com.trading.models.order;
+package com.trading.model.order;
 
 public enum Symbol {
     XBTUSD ("XBTUSD"),
