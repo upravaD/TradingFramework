@@ -11,7 +11,6 @@ import com.trading.util.url.bitmex.BitmexURL;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.swing.text.DateFormatter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -19,34 +18,37 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-public class BitmexHttpClient {
+public class BitmexClient {
     private final Bitmex bitmex;
     private final HttpClient client;
 
-    public BitmexHttpClient(Bitmex bitmex) {
+    public BitmexClient(Bitmex bitmex) {
         this.bitmex = bitmex;
         this.client = HttpClient.newHttpClient();
     }
 
-    public String getPrice() {
-        JSONArray jsonArray = new JSONArray(getOrderBook().body());
+    public String getPrice(Symbol symbol) {
+        JSONArray jsonArray = new JSONArray(getOrderBook(symbol).body());
         JSONObject jsonObject = (JSONObject) jsonArray.get(0);
         String price = jsonObject.get("price") + " " + jsonObject.getString("symbol");
         Instant instant = Instant.parse(String.valueOf(jsonObject.get("timestamp")));
         return "Price: " + price + " \n" + convertTimeStamp(instant);
     }
+    public double getDoublePrice(Symbol symbol) {
+        return new JSONArray(getOrderBook(symbol).body())
+                .getJSONObject(0)
+                .getDouble("price");
+    }
 
-    public HttpResponse<String> getOrderBook() {
+    public HttpResponse<String> getOrderBook(Symbol symbol) {
         URL url = createBitmexURL(BitmexResourcePath.ORDER_BOOK);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(url + "?symbol=" + Symbol.XBTUSD.get() + "&depth=1"))
+                .uri(URI.create(url + "?symbol=" + symbol + "&depth=1"))
                 .build();
 
         HttpResponse<String> response;
@@ -61,10 +63,8 @@ public class BitmexHttpClient {
     public HttpResponse<String> sendOrder(Order order) {
         URL url = createBitmexURL(BitmexResourcePath.ORDER);
         String data = new JSONObject(order).toString();
-        String expires = Expires.NEW.create();
+        String expires = new Expires().toString();
         String signature = new Signature().createSignature(url, Verb.POST.get(), data, expires, bitmex.getApiSecret());
-
-        System.out.println(url);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(BodyPublishers.ofString(data))

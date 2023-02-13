@@ -15,12 +15,20 @@
   <url>https://maven.apache.org</url>
 
   <dependencies>
+    <!-- Test -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.9.1</version>
+      <scope>test</scope>
+    </dependency>
+
 
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -28,18 +36,17 @@
       <version>4.0.1</version>
       <scope>provided</scope>
     </dependency>
-
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
       <version>1.2</version>
     </dependency>
-
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jsp-api</artifactId>
       <version>2.0</version>
     </dependency>
+
 
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -47,24 +54,74 @@
       <version>1.18.20</version>
     </dependency>
 
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.13.4.2</version>
     </dependency>
-
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20220924</version>
     </dependency>
 
+
+    <!-- Hibernate -->
+    <!-- to start need only this -->
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>5.9.1</version>
-      <scope>test</scope>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.3.20.Final</version>
     </dependency>
+
+    <!-- for JPA, use hibernate-entitymanager instead of hibernate-core -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>6.0.0.Alpha7</version>
+    </dependency>
+
+    <!-- optional -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-osgi</artifactId>
+      <version>6.0.0.Alpha7</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-envers</artifactId>
+      <version>6.2.0.CR2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-c3p0</artifactId>
+      <version>6.2.0.CR2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-proxool</artifactId>
+      <version>6.2.0.CR2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-infinispan</artifactId>
+      <version>5.6.15.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-ehcache</artifactId>
+      <version>6.0.0.Alpha7</version>
+    </dependency>
+    <!--END Hibernate -->
+
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.32</version>
+    </dependency>
+
   </dependencies>
 
   <build>

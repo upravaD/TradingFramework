@@ -1,12 +1,13 @@
 package com.trading;
 
-import com.trading.dto.UserDTO;
+import com.trading.data.dto.UserDTO;
 import com.trading.models.bitmex.Bitmex;
-import com.trading.models.bitmex.BitmexHttpClient;
+import com.trading.models.bitmex.BitmexClient;
 import com.trading.models.order.Order;
 import com.trading.models.order.OrderSide;
 import com.trading.models.order.OrderType;
 import com.trading.models.order.Symbol;
+import org.json.JSONArray;
 
 import java.net.http.HttpResponse;
 
@@ -22,8 +23,8 @@ public class Main {
         UserDTO user = new UserDTO(
                 1L,
                 "NAME",
-                "WQ1aBsyISR2r-4yETA8dFQvS",
-                "_t2ZDgBFOw0R3fy5QD5UfRp7UWT_1votUopd59nGgZyW4SRz"
+                "2C5FhJuJMw6pKqKcGdqIZNsj",
+                "Me9Pyl9qHxD8USMvIh4UezJPgbvUTMHT7Wl2VknpLUh632tJ"
         );
 
         // 2. Создаем платформу
@@ -34,21 +35,21 @@ public class Main {
                 .build();
 
         // 3. Подключаемся к платформе
-        BitmexHttpClient bhc = new BitmexHttpClient(bitmex);
+        BitmexClient bhc = new BitmexClient(bitmex);
 
         // 4. Создаем data request
         Order order = Order.builder()
-                .symbol(Symbol.XBTUSD.get())
+                .symbol(Symbol.BMEXUSDT)
                 .side(OrderSide.BUY.get())
                 .orderType(OrderType.LIMIT.get())
                 .price(1.0)
-                .orderQty(100.0)
+                .orderQty(1000.0)
                 .build();
 
         // 5. Посылаем запрос
-        String price = bhc.getPrice();
+        String price = bhc.getPrice(Symbol.BMEXUSDT);
         HttpResponse<String> sendOrder = bhc.sendOrder(order);
-        HttpResponse<String> orderBook = bhc.getOrderBook();
+        HttpResponse<String> orderBook = bhc.getOrderBook(Symbol.BMEXUSDT);
 
         // 6. Получаем ответ
         System.out.println("-".repeat(55));

@@ -1,7 +1,9 @@
 package com.trading.models.order;
 
 public enum Symbol {
-    XBTUSD ("XBTUSD");
+    XBTUSD ("XBTUSD"),
+    BMEXUSDT ("BMEXUSDT"),
+    DOGEUSD ("DOGEUSD");
 
     private final String symbol;
 

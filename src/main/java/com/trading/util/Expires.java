@@ -1,17 +1,21 @@
 package com.trading.util;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.Instant;
 
-public enum Expires {
-    NEW((Instant.now().getEpochSecond() + 100));
+@Getter
+public class Expires {
 
-    private final String expires;
+    private final long expires;
 
-    Expires(long expires) {
-        this.expires = String.valueOf(expires);
+    public Expires() {
+        this.expires = Instant.now().getEpochSecond() + 100;
     }
 
-    public String create() {
-        return expires;
+    @Override
+    public String toString() {
+        return String.valueOf(expires);
     }
 }

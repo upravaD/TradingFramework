@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 @Builder
 public class Order {
-    private String symbol;
+    private Symbol symbol;
     private String side;
     private Double price;
     private Double orderQty;
