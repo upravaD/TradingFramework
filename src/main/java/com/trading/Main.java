@@ -48,13 +48,19 @@ public class Main {
                 .build();
 
         // 5. Посылаем запрос
-        UserDAO userDAO = new UserDAO();
-        List<User> all = userDAO.getAll();
-        System.out.println(all.toString());
-        //String price = bhc.getPrice(Symbol.BMEXUSDT, 1);
-        //double price = bhc.getDoublePrice(Symbol.BMEXUSDT, 1);
-        //HttpResponse<String> sendOrder = bhc.sendOrder(order);
-        //HttpResponse<String> orderBook = bhc.getOrderBook(Symbol.BMEXUSDT, 1);
+
+        //Запрос к бд
+//        UserDAO userDAO = new UserDAO();
+//        List<User> all = userDAO.getAll();
+//        System.out.println(all.toString());
+
+        //запрос price
+//        String price = bhc.getPrice(Symbol.BMEXUSDT, 1);
+//        double price = bhc.getDoublePrice(Symbol.BMEXUSDT, 1);
+
+        //запрос orderBook
+//        HttpResponse<String> sendOrder = bhc.sendOrder(order);
+//        HttpResponse<String> orderBook = bhc.getOrderBook(Symbol.BMEXUSDT, 1);
 
         // 6. Получаем ответ
         System.out.println("-".repeat(55));
